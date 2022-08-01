@@ -35,7 +35,7 @@ class Bird {
 Next up, lets make a Duck class that will extend from the Bird class so it can inherit the fly method. Ducks can fly, so far so good.
 
 ```typescript
-class Dove extends Bird {
+class Duck extends Bird {
   quack() {
     //Duck Quacks
   }
