@@ -43,18 +43,99 @@ Create a `makeSound` function to each Animal class and remove the giant switch f
 
 ## My one-liner as I see it:
 
-## Examples:
+You shouldn't adapt your feet to fit a shoe, but adapt the shoe to fit the feet.
 
-### Breaks the principle:
+## Example:
 
+### We make some shapes
+
+```typescript
+class Rectangle {
+  public width: number;
+  public height: number;
+  constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+  }
+}
+
+class Circle {
+  public radius: number;
+  constructor(radius: number) {
+    this.radius = radius;
+  }
+}
 ```
 
+### Create a AreaCalculator class
+
+```typescript
+class AreaCalculator {
+  public calculateAreasOfMultipleShapes(shapes: Array<Rectangle | Circle>) {
+    return shapes.reduce((calculatedArea, shape) => {
+      if (shape instanceof Rectangle) {
+        return calculatedArea + shape.width * shape.height;
+      }
+      if (shape instanceof Circle) {
+        return calculatedArea + shape.radius * Math.PI;
+      }
+    }, 0);
+  }
+}
 ```
 
-## Follows the principle
+### This will work for the Rectangle and Circle, but what if we wanted to add another shape? We would need to change the `calculateAreasOfMultipleShapes` method by adding another if statement that checks for that specific new shape => this breaks the OCP.
 
+#
+
+## To fix it:
+
+### To fix this, we can create a Shape interface that makes all the shapes have a getArea method individually.
+
+```typescript
+interface Shape {
+  getArea(): number;
+}
 ```
 
+### Have the shape classes implement this interface:
+
+```typescript
+class Rectangle implements Shape {
+  public width: number;
+  public height: number;
+  constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+  }
+  public getArea() {
+    return this.width * this.height;
+  }
+}
+
+class Circle implements Shape {
+  public radius: number;
+  constructor(radius: number) {
+    this.radius = radius;
+  }
+  public getArea() {
+    return this.radius * Math.PI;
+  }
+}
+```
+
+### Now we can adapt our AreaCalculator's `calculateAreasOfMultipleShapes` so it can handle any shape we could implement in the future!
+
+```typescript
+class AreaCalculator {
+  public calculateAreasOfMultipleShapes(shapes: Shape[]) {
+    return shapes.reduce((calculatedArea, shape) => {
+      return calculatedArea + shape.getArea();
+    }, 0);
+  }
+}
 ```
 
 ## Conclusion:
+
+By implementing the interface we have succesfully prepared the AreaCalculator to be able to take any shape, thus making it not only a more expandable and reusable class, but more readable!
