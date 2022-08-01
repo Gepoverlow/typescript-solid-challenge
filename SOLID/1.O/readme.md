@@ -43,7 +43,7 @@ Create a `makeSound` function to each Animal class and remove the giant switch f
 
 ## My one-liner as I see it:
 
-You shouldn't adapt your feet to fit a shoe, but adapt the shoe to fit the feet.
+You shouldn't adapt your feet to fit the shoe, but adapt the shoe to fit the feet.
 
 ## Example:
 
