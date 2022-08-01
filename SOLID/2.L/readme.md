@@ -87,7 +87,7 @@ class FlyingBird {
 
 class SwimmingBird {
   swim() {
-    //Swim bird swim.
+    //Swim birdie swim.
   }
 }
 ```
@@ -95,7 +95,7 @@ class SwimmingBird {
 2- Change from which class the Duck and Penguin are extending from
 
 ```typescript
-class Dove extends FlyingBird {
+class Duck extends FlyingBird {
   quack() {
     //Duck Quacks
   }
