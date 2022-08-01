@@ -1,0 +1,17 @@
+{
+  "name": "o-solution",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "source": "new.ts",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.6.2"
+  }
+}
