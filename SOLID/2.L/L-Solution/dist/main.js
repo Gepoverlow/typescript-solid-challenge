@@ -1,26 +1,50 @@
-//This is called a Union, the discountType can only contain the following 2 values:
-console.log("hiiiiooo");
-class $cae0fed8022bd1e4$var$Discount {
-    constructor(type, value = 0){
-        this._type = type;
+class $3ad8b3f9291c2a94$export$2e2bcd8739ae039 {
+    constructor(value = 0){
         this._value = value;
-        if (this._type != "none" && value <= 0) throw new Error("You cannot create a " + this._type + " discount with a negative value");
-    }
-    apply(price) {
-        //@todo: instead of using magic values as string in this, it would be a lot better to change them into constant. This would protect us from misspellings. Can you improve this?
-        if (this._type === "none") return price;
-        else if (this._type === "variable") return price - price * this._value / 100;
-        else if (this._type === "fixed") return Math.max(0, price - this._value);
-        else throw new Error("Invalid type of discount");
-    }
-    showCalculation(price) {
-        if (this._type === "none") return "No discount";
-        else if (this._type === "variable") return price + " \u20AC -  " + this._value + "%";
-        else if (this._type === "fixed") return price + "\u20AC -  " + this._value + "\u20AC (min 0 \u20AC)";
-        else throw new Error("Invalid type of discount");
     }
 }
-class $cae0fed8022bd1e4$var$Product {
+
+
+class $c3c61f77146b8c2d$export$2e2bcd8739ae039 extends (0, $3ad8b3f9291c2a94$export$2e2bcd8739ae039) {
+    constructor(value){
+        super(value);
+    }
+    apply(price) {
+        if (this._value < 0) return Math.max(0, price - 0);
+        return Math.max(0, price - this._value);
+    }
+    showCalculation(price) {
+        if (this._value < 0) return price + "\u20AC (Fixed Discounts cant be negative)";
+        return price + "\u20AC -  " + this._value + "\u20AC (min 0 \u20AC)";
+    }
+}
+
+
+
+class $088dddd2ca5e8be8$export$2e2bcd8739ae039 extends (0, $3ad8b3f9291c2a94$export$2e2bcd8739ae039) {
+    constructor(value){
+        super(value);
+    }
+    apply(price) {
+        return price - price * this._value / 100;
+    }
+    showCalculation(price) {
+        return price + " \u20AC -  " + this._value + "%";
+    }
+}
+
+
+class $d79833f73622d4e1$export$2e2bcd8739ae039 {
+    apply(price) {
+        return price;
+    }
+    showCalculation(price) {
+        return "No discount";
+    }
+}
+
+
+class $091f271f6234d162$export$2e2bcd8739ae039 {
     constructor(name, price, discount){
         this._name = name;
         this._price = price;
@@ -44,7 +68,9 @@ class $cae0fed8022bd1e4$var$Product {
         return this._discount.showCalculation(this._price);
     }
 }
-class $cae0fed8022bd1e4$var$shoppingBasket {
+
+
+class $07e94cd84de36019$export$2e2bcd8739ae039 {
     //this array only accepts Product objects, nothing else
     _products = [];
     get products() {
@@ -54,13 +80,15 @@ class $cae0fed8022bd1e4$var$shoppingBasket {
         this._products.push(product);
     }
 }
-let $cae0fed8022bd1e4$var$cart = new $cae0fed8022bd1e4$var$shoppingBasket();
-$cae0fed8022bd1e4$var$cart.addProduct(new $cae0fed8022bd1e4$var$Product("Chair", 25, new $cae0fed8022bd1e4$var$Discount("fixed", 10)));
-//cart.addProduct(new Product('Chair', 25, new Discount("fixed", -10)));
-$cae0fed8022bd1e4$var$cart.addProduct(new $cae0fed8022bd1e4$var$Product("Table", 50, new $cae0fed8022bd1e4$var$Discount("variable", 25)));
-$cae0fed8022bd1e4$var$cart.addProduct(new $cae0fed8022bd1e4$var$Product("Bed", 100, new $cae0fed8022bd1e4$var$Discount("none")));
-const $cae0fed8022bd1e4$var$tableElement = document.querySelector("#cart tbody");
-$cae0fed8022bd1e4$var$cart.products.forEach((product)=>{
+
+
+let $71760380dbca18d3$var$cart = new (0, $07e94cd84de36019$export$2e2bcd8739ae039)();
+$71760380dbca18d3$var$cart.addProduct(new (0, $091f271f6234d162$export$2e2bcd8739ae039)("Chair", 25, new (0, $c3c61f77146b8c2d$export$2e2bcd8739ae039)(10)));
+$71760380dbca18d3$var$cart.addProduct(new (0, $091f271f6234d162$export$2e2bcd8739ae039)("Chair", 25, new (0, $c3c61f77146b8c2d$export$2e2bcd8739ae039)(-10)));
+$71760380dbca18d3$var$cart.addProduct(new (0, $091f271f6234d162$export$2e2bcd8739ae039)("Table", 50, new (0, $088dddd2ca5e8be8$export$2e2bcd8739ae039)(25)));
+$71760380dbca18d3$var$cart.addProduct(new (0, $091f271f6234d162$export$2e2bcd8739ae039)("Bed", 100, new (0, $d79833f73622d4e1$export$2e2bcd8739ae039)()));
+const $71760380dbca18d3$var$tableElement = document.querySelector("#cart tbody");
+$71760380dbca18d3$var$cart.products.forEach((product)=>{
     let tr = document.createElement("tr");
     let td = document.createElement("td");
     td.innerText = product.name;
@@ -74,7 +102,7 @@ $cae0fed8022bd1e4$var$cart.products.forEach((product)=>{
     td = document.createElement("td");
     td.innerText = product.showCalculation();
     tr.appendChild(td);
-    $cae0fed8022bd1e4$var$tableElement.appendChild(tr);
+    $71760380dbca18d3$var$tableElement.appendChild(tr);
 });
 
 

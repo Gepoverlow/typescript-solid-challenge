@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
-  "source": "old.ts",
+  "source": "src/old.ts",
   "scripts": {
     "start": "parcel",
     "build": "parcel build",
