@@ -146,4 +146,4 @@ class NewBorn implements Breather, Eater {
 
 ## Conclusion
 
-Another super nice principle that goes hand to hand with the Single Responsability Principle in the sense that both guide us to more follow a more expandable, bug less and readble path.
+Another super nice principle that goes hand to hand with the Single Responsability Principle in the sense that both guide us to more follow a more expandable, bug less and readable way of crafting code.
