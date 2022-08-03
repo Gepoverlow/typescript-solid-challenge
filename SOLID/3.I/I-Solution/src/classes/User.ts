@@ -1,6 +1,8 @@
-import IUserAuth from "../interfaces/IUserAuth";
+import IPassowrd from "../interfaces/IPassword";
+import IGoogleAuth from "../interfaces/IGoogleAuth";
+import IFaceBookAuth from "../interfaces/IFaceBookAuth";
 
-export default class User implements IUserAuth {
+export default class User implements IPassowrd, IGoogleAuth, IFaceBookAuth {
   private _password: string = "user";
   private _facebookToken: string;
   private _googleToken: string;
@@ -29,6 +31,6 @@ export default class User implements IUserAuth {
   }
 
   resetPassword() {
-    this._password = prompt("What is your new password?");
+    this._password = prompt("What is your new password?")!;
   }
 }

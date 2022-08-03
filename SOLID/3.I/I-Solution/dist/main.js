@@ -26,14 +26,8 @@ class $f8664a46d9bdc20b$export$2e2bcd8739ae039 {
 
 class $cbe9fb442bc4e7be$export$2e2bcd8739ae039 {
     _password = "admin";
-    checkGoogleLogin(token) {
-        return false;
-    }
     checkPassword(password) {
         return password === this._password;
-    }
-    checkFacebookLogin(token) {
-        return false;
     }
     resetPassword() {
         this._password = prompt("What is your new password?");
@@ -42,6 +36,12 @@ class $cbe9fb442bc4e7be$export$2e2bcd8739ae039 {
 
 
 class $b660f0918265a804$export$2e2bcd8739ae039 {
+    setGoogleToken(token) {
+        this._googleToken = token;
+    }
+    checkGoogleLogin(token) {
+        return token === this._googleToken;
+    }
 }
 
 
@@ -51,31 +51,27 @@ const $477891210744edbf$var$typePasswordElement = document.querySelector("#typeP
 const $477891210744edbf$var$typeGoogleElement = document.querySelector("#typeGoogle");
 const $477891210744edbf$var$typeFacebookElement = document.querySelector("#typeFacebook");
 const $477891210744edbf$var$loginAsAdminElement = document.querySelector("#loginAsAdmin");
+const $477891210744edbf$var$loginAsBotElement = document.querySelector("#loginAsBot");
 const $477891210744edbf$var$resetPasswordElement = document.querySelector("#resetPassword");
 let $477891210744edbf$var$guest = new (0, $f8664a46d9bdc20b$export$2e2bcd8739ae039)();
 let $477891210744edbf$var$admin = new (0, $cbe9fb442bc4e7be$export$2e2bcd8739ae039)();
 let $477891210744edbf$var$bot = new (0, $b660f0918265a804$export$2e2bcd8739ae039)();
 document.querySelector("#login-form").addEventListener("submit", (event)=>{
     event.preventDefault();
-    let user = $477891210744edbf$var$loginAsAdminElement.checked ? $477891210744edbf$var$admin : $477891210744edbf$var$guest;
-    if (!$477891210744edbf$var$loginAsAdminElement.checked) {
+    let user;
+    if (!$477891210744edbf$var$loginAsBotElement.checked && $477891210744edbf$var$loginAsAdminElement.checked) user = $477891210744edbf$var$admin;
+    else if ($477891210744edbf$var$loginAsBotElement.checked && !$477891210744edbf$var$loginAsAdminElement.checked) user = $477891210744edbf$var$bot;
+    else if (!$477891210744edbf$var$loginAsBotElement.checked && !$477891210744edbf$var$loginAsAdminElement.checked) user = $477891210744edbf$var$guest;
+    else return alert("please select only one option");
+    if (user === $477891210744edbf$var$guest) {
         user.setGoogleToken("secret_token_google");
         user.setFacebookToken("secret_token_fb");
-    }
-    debugger;
+    } else if (user === $477891210744edbf$var$bot) user.setGoogleToken("secret_token_google");
+    //debugger;
     let auth = false;
-    switch(true){
-        case $477891210744edbf$var$typePasswordElement.checked:
-            auth = user.checkPassword($477891210744edbf$var$passwordElement.value);
-            break;
-        case $477891210744edbf$var$typeGoogleElement.checked:
-            auth = user.checkGoogleLogin("secret_token_google");
-            break;
-        case $477891210744edbf$var$typeFacebookElement.checked:
-            debugger;
-            auth = user.checkFacebookLogin("secret_token_fb");
-            break;
-    }
+    if ($477891210744edbf$var$typeGoogleElement.checked && user != $477891210744edbf$var$admin) auth = user.checkGoogleLogin("secret_token_google");
+    else if ($477891210744edbf$var$typePasswordElement.checked && user != $477891210744edbf$var$bot) auth = user.checkPassword($477891210744edbf$var$passwordElement.value);
+    else if ($477891210744edbf$var$typeFacebookElement.checked && user === $477891210744edbf$var$guest) auth = user.checkFacebookLogin("secret_token_fb");
     if (auth) alert("login success");
     else alert("login failed");
 });

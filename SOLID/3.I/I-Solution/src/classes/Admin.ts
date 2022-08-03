@@ -1,22 +1,14 @@
-import IAdminAuth from "../interfaces/IAdminAuth";
+import IPassword from "../interfaces/IPassword";
 
 //admin cannot use google or facebook token
-export default class Admin implements IAdminAuth {
+export default class Admin implements IPassword {
   private _password: string = "admin";
-
-  checkGoogleLogin(token: string): boolean {
-    return false;
-  }
 
   checkPassword(password: string): boolean {
     return password === this._password;
   }
 
-  checkFacebookLogin(token: string): boolean {
-    return false;
-  }
-
   resetPassword() {
-    this._password = prompt("What is your new password?");
+    this._password = prompt("What is your new password?")!;
   }
 }

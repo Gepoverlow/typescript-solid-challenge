@@ -9,6 +9,7 @@ const typePasswordElement = <HTMLInputElement>document.querySelector("#typePassw
 const typeGoogleElement = <HTMLInputElement>document.querySelector("#typeGoogle");
 const typeFacebookElement = <HTMLInputElement>document.querySelector("#typeFacebook");
 const loginAsAdminElement = <HTMLInputElement>document.querySelector("#loginAsAdmin");
+const loginAsBotElement = <HTMLInputElement>document.querySelector("#loginAsBot");
 const resetPasswordElement = <HTMLAnchorElement>document.querySelector("#resetPassword");
 
 let guest = new User();
@@ -18,26 +19,33 @@ let bot = new GoogleBot();
 document.querySelector("#login-form").addEventListener("submit", (event) => {
   event.preventDefault();
 
-  let user = loginAsAdminElement.checked ? admin : guest;
+  let user;
 
-  if (!loginAsAdminElement.checked) {
+  if (!loginAsBotElement.checked && loginAsAdminElement.checked) {
+    user = admin;
+  } else if (loginAsBotElement.checked && !loginAsAdminElement.checked) {
+    user = bot;
+  } else if (!loginAsBotElement.checked && !loginAsAdminElement.checked) {
+    user = guest;
+  } else {
+    return alert("please select only one option");
+  }
+
+  if (user === guest) {
     user.setGoogleToken("secret_token_google");
     user.setFacebookToken("secret_token_fb");
+  } else if (user === bot) {
+    user.setGoogleToken("secret_token_google");
   }
-  debugger;
+  //debugger;
 
   let auth = false;
-  switch (true) {
-    case typePasswordElement.checked:
-      auth = user.checkPassword(passwordElement.value);
-      break;
-    case typeGoogleElement.checked:
-      auth = user.checkGoogleLogin("secret_token_google");
-      break;
-    case typeFacebookElement.checked:
-      debugger;
-      auth = user.checkFacebookLogin("secret_token_fb");
-      break;
+  if (typeGoogleElement.checked && user != admin) {
+    auth = user.checkGoogleLogin("secret_token_google");
+  } else if (typePasswordElement.checked && user != bot) {
+    auth = user.checkPassword(passwordElement.value);
+  } else if (typeFacebookElement.checked && user === guest) {
+    auth = user.checkFacebookLogin("secret_token_fb");
   }
 
   if (auth) {
